@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Penjumlahan Bilangan Bulat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .question-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .question-text {
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .answer-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 24px;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            transition: border-color 0.3s;
+        }
+
+        .answer-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: transform 0.2s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .next-btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: none;
+            transition: transform 0.2s;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 14px;
+            color: #856404;
+            display: none;
+        }
+
+        .streak-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 72px;
+            font-weight: bold;
+            color: #ff6b6b;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 1000;
+        }
+
+        @keyframes streakPop {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .streak-animation.show {
+            animation: streakPop 1.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧮 Quiz Penjumlahan Bilangan Bulat</h1>
+        <p class="subtitle">Ketik jawabanmu dan tekan Enter!</p>
+
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-label">Skor</div>
+                <div class="stat-value" id="score">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Streak</div>
+                <div class="stat-value" id="streak">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Soal</div>
+                <div class="stat-value" id="questionCount">0</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-text" id="question">Loading...</div>
+            <input 
+                type="number" 
+                class="answer-input" 
+                id="answerInput" 
+                placeholder="Ketik jawaban..."
+                autocomplete="off"
+            >
+            <button class="submit-btn" id="submitBtn">Cek Jawaban</button>
+            <button class="next-btn" id="nextBtn">Soal Berikutnya →</button>
+            
+            <div class="feedback" id="feedback"></div>
+            <div class="explanation" id="explanation"></div>
+        </div>
+    </div>
+
+    <div class="streak-animation" id="streakAnimation"></div>
+
+    <script>
+        let score = 0;
+        let streak = 0;
+        let questionCount = 0;
+        let currentAnswer = 0;
+        let isAnswered = false;
+
+        const questionEl = document.getElementById('question');
+        const answerInput = document.getElementById('answerInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const feedbackEl = document.getElementById('feedback');
+        const explanationEl = document.getElementById('explanation');
+        const scoreEl = document.getElementById('score');
+        const streakEl = document.getElementById('streak');
+        const questionCountEl = document.getElementById('questionCount');
+        const streakAnimation = document.getElementById('streakAnimation');
+
+        function generateQuestion() {
+            const a = Math.floor(Math.random() * 101) - 50;
+            const b = Math.floor(Math.random() * 101) - 50;
+            currentAnswer = a + b;
+            questionEl.textContent = `${a} + ${b} = ?`;
+            answerInput.value = '';
+            answerInput.disabled = false;
+            submitBtn.style.display = 'block';
+            nextBtn.style.display = 'none';
+            feedbackEl.style.display = 'none';
+            explanationEl.style.display = 'none';
+            isAnswered = false;
+            answerInput.focus();
+        }
+
+        function showStreakAnimation() {
+            streakAnimation.textContent = `🔥 ${streak}x Streak!`;
+            streakAnimation.classList.remove('show');
+            void streakAnimation.offsetWidth;
+            streakAnimation.classList.add('show');
+        }
+
+        function checkAnswer() {
+            if (isAnswered) return;
+
+            const userAnswer = parseInt(answerInput.value);
+
+            if (isNaN(userAnswer)) {
+                feedbackEl.textContent = '⚠️ Masukkan angka yang valid!';
+                feedbackEl.className = 'feedback';
+                feedbackEl.style.display = 'block';
+                return;
+            }
+
+            isAnswered = true;
+            questionCount++;
+            questionCountEl.textContent = questionCount;
+
+            if (userAnswer === currentAnswer) {
+                score += 10 + (streak * 2);
+                streak++;
+                feedbackEl.textContent = `✅ Benar! (+${10 + ((streak - 1) * 2)} poin)`;
+                feedbackEl.className = 'feedback correct';
+                if (streak > 0 && streak % 5 === 0) {
+                    showStreakAnimation();
+                }
+            } else {
+                streak = 0;
+                feedbackEl.textContent = `❌ Salah! Jawaban yang benar adalah ${currentAnswer}`;
+                feedbackEl.className = 'feedback incorrect';
+                
+                explanationEl.innerHTML = `
+                    <strong>Penjelasan:</strong><br>
+                    ${extractNumbersFromQuestion()} = ${currentAnswer}<br><br>
+                    ${generateExplanation()}
+                `;
+                explanationEl.style.display = 'block';
+            }
+
+            scoreEl.textContent = score;
+            streakEl.textContent = streak;
+            feedbackEl.style.display = 'block';
+            answerInput.disabled = true;
+            submitBtn.style.display = 'none';
+            nextBtn.style.display = 'block';
+            nextBtn.focus();
+        }
+
+        function extractNumbersFromQuestion() {
+            const match = questionEl.textContent.match(/(-?\d+)\s*\+\s*(-?\d+)/);
+            if (match) {
+                const a = parseInt(match[1]);
+                const b = parseInt(match[2]);
+                return `${a} + ${b}`;
+            }
+            return questionEl.textContent;
+        }
+
+        function generateExplanation() {
+            const match = questionEl.textContent.match(/(-?\d+)\s*\+\s*(-?\d+)/);
+            if (!match) return '';
+            
+            const a = parseInt(match[1]);
+            const b = parseInt(match[2]);
+            const result = a + b;
+
+            if (a >= 0 && b >= 0) {
+                return `Kedua bilangan bernilai positif, jadi hasilnya juga positif: ${a} + ${b} = ${result}`;
+            } else if (a < 0 && b < 0) {
+                return `Kedua bilangan bernilai negatif, jadi hasilnya juga negatif: ${a} + ${b} = ${result}`;
+            } else if (a < 0 && b > 0) {
+                if (Math.abs(a) > b) {
+                    return `Nilai absolut ${a} (${Math.abs(a)}) lebih besar dari ${b}, jadi hasil negatif: ${a} + ${b} = ${result}`;
+                } else if (Math.abs(a) < b) {
+                    return `Nilai absolut ${b} (${b}) lebih besar dari ${a} (${Math.abs(a)}), jadi hasil positif: ${a} + ${b} = ${result}`;
+                } else {
+                    return `Nilai absolut sama besar, jadi hasilnya nol (saling menghilangkan): ${a} + ${b} = ${result}`;
+                }
+            } else {
+                if (Math.abs(b) > Math.abs(a)) {
+                    return `Nilai absolut ${b} (${Math.abs(b)}) lebih besar dari ${a} (${Math.abs(a)}), jadi hasilnya mengikuti tanda ${b}: ${a} + ${b} = ${result}`;
+                } else if (Math.abs(b) < Math.abs(a)) {
+                    return `Nilai absolut ${a} (${Math.abs(a)}) lebih besar dari ${b} (${Math.abs(b)}), jadi hasilnya mengikuti tanda ${a}: ${a} + ${b} = ${result}`;
+                } else {
+                    return `Nilai absolut sama besar, jadi hasilnya nol (saling menghilangkan): ${a} + ${b} = ${result}`;
+                }
+            }
+        }
+
+        submitBtn.addEventListener('click', checkAnswer);
+        
+        nextBtn.addEventListener('click', generateQuestion);
+
+        answerInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !isAnswered) {
+                checkAnswer();
+            }
+        });
+
+        generateQuestion();
+    </script>
+</body>
+</html>
