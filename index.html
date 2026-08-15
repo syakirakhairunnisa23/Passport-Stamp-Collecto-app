@@ -1,391 +1,1224 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Penjumlahan Bilangan Bulat</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Passport Stamp Collector — Koleksi Stempel Paspor Digital</title>
+  <meta name="description" content="Kumpulkan dan kelola koleksi stempel paspor virtual Anda. Catat perjalanan, negara, dan kenangan liburan dalam satu aplikasi web sederhana.">
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --bg-body: #faf8f5;
+      --bg-surface: #ffffff;
+      --bg-surface-elevated: #f5f2ed;
+      --bg-input: #ffffff;
+      --border-color: #e2d9cc;
+      --text-main: #2d1810;
+      --text-muted: #8b7355;
+      --color-primary: #1e3a5f;
+      --color-primary-hover: #152942;
+      --color-primary-light: #f0f4f8;
+      --color-accent: #d4af37;
+      --color-accent-hover: #b8962e;
+      --color-danger: #c0392b;
+      --color-success: #27ae60;
+      --shadow-sm: 0 1px 2px 0 rgb(45 24 16 / 0.06);
+      --shadow-md: 0 4px 6px -1px rgb(45 24 16 / 0.08), 0 2px 4px -2px rgb(45 24 16 / 0.06);
+      --shadow-lg: 0 10px 15px -3px rgb(45 24 16 / 0.1), 0 4px 6px -4px rgb(45 24 16 / 0.08);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --stamp-border: #b8860b;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+    html.dark {
+      --bg-body: #0b0f19;
+      --bg-surface: #111827;
+      --bg-surface-elevated: #1f2937;
+      --bg-input: #1f2937;
+      --border-color: #374151;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --color-primary: #6366f1;
+      --color-primary-hover: #4f46e5;
+      --color-primary-light: #1e1b4b;
+      --color-accent: #fbbf24;
+      --color-accent-hover: #f59e0b;
+      --color-danger: #ef4444;
+      --color-success: #10b981;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.5);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.6);
+      --stamp-border: #fbbf24;
+    }
 
-        .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 40px;
-            max-width: 600px;
-            width: 100%;
-        }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 28px;
-        }
+    body {
+      font-family: var(--font-main);
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
 
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
+    a {
+      color: var(--color-primary);
+      text-decoration: none;
+    }
 
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 30px;
-            gap: 10px;
-        }
+    button {
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      font-weight: 600;
+      transition: var(--transition);
+    }
 
-        .stat-box {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 12px;
-            text-align: center;
-            flex: 1;
-        }
+    button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
 
-        .stat-label {
-            font-size: 12px;
-            opacity: 0.9;
-            margin-bottom: 5px;
-        }
+    input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+    }
 
-        .stat-value {
-            font-size: 24px;
-            font-weight: bold;
-        }
+    header {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      padding: 16px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+      background: rgba(var(--bg-surface), 0.8);
+    }
 
-        .question-card {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
 
-        .question-text {
-            font-size: 36px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 20px;
-        }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
+    }
 
-        .answer-input {
-            width: 100%;
-            padding: 15px;
-            font-size: 24px;
-            text-align: center;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            transition: border-color 0.3s;
-        }
+    .logo-icon {
+      font-size: 28px;
+      line-height: 1;
+    }
 
-        .answer-input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-        .submit-btn {
-            width: 100%;
-            padding: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            color: white;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: transform 0.2s;
-        }
+    .btn {
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
 
-        .submit-btn:hover {
-            transform: translateY(-2px);
-        }
+    .btn-primary {
+      background: var(--color-primary);
+      color: #fff;
+    }
 
-        .submit-btn:active {
-            transform: translateY(0);
-        }
+    .btn-primary:hover {
+      background: var(--color-primary-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
 
-        .feedback {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 16px;
-            font-weight: bold;
-            display: none;
-        }
+    .btn-primary:active {
+      transform: translateY(0);
+    }
 
-        .feedback.correct {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
+    .btn-accent {
+      background: var(--color-accent);
+      color: #1a1a1a;
+    }
 
-        .feedback.incorrect {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
+    .btn-accent:hover {
+      background: var(--color-accent-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
 
-        .next-btn {
-            width: 100%;
-            padding: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            color: white;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 10px;
-            display: none;
-            transition: transform 0.2s;
-        }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+    }
 
-        .next-btn:hover {
-            transform: translateY(-2px);
-        }
+    .btn-ghost:hover {
+      background: var(--bg-surface-elevated);
+      color: var(--text-main);
+    }
 
-        .explanation {
-            margin-top: 15px;
-            padding: 15px;
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            border-radius: 8px;
-            text-align: left;
-            font-size: 14px;
-            color: #856404;
-            display: none;
-        }
+    .btn-danger {
+      background: var(--color-danger);
+      color: #fff;
+    }
 
-        .streak-animation {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 72px;
-            font-weight: bold;
-            color: #ff6b6b;
-            pointer-events: none;
-            opacity: 0;
-            z-index: 1000;
-        }
+    .btn-danger:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
 
-        @keyframes streakPop {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.5);
-            }
-            50% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1.2);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(1);
-            }
-        }
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 13px;
+    }
 
-        .streak-animation.show {
-            animation: streakPop 1.5s ease-out;
-        }
-    </style>
+    main {
+      flex: 1;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 40px 20px 30px;
+    }
+
+    .hero h1 {
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      font-size: 16px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .stat-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--color-primary);
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+      align-items: center;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 200px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 16px 12px 40px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      background: var(--bg-input);
+      color: var(--text-main);
+      font-size: 14px;
+      transition: var(--transition);
+    }
+
+    .search-box input:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px var(--color-primary-light);
+    }
+
+    .search-box::before {
+      content: "🔍";
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .filter-select {
+      padding: 12px 16px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      background: var(--bg-input);
+      color: var(--text-main);
+      font-size: 14px;
+      min-width: 160px;
+      cursor: pointer;
+    }
+
+    .stamps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .stamp-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .stamp-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--color-accent);
+    }
+
+    .stamp-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--color-accent), var(--color-primary));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .stamp-card:hover::before {
+      opacity: 1;
+    }
+
+    .stamp-emoji {
+      font-size: 48px;
+      text-align: center;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stamp-country {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+      text-align: center;
+    }
+
+    .stamp-city {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .stamp-date {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stamp-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 8px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .stamp-actions button {
+      flex: 1;
+      padding: 8px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      background: var(--bg-surface-elevated);
+      color: var(--text-main);
+    }
+
+    .stamp-actions button:hover {
+      background: var(--border-color);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+    }
+
+    .empty-state-icon {
+      font-size: 64px;
+      margin-bottom: 16px;
+      opacity: 0.7;
+    }
+
+    .empty-state h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .modal-title {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: var(--text-muted);
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      padding: 0;
+    }
+
+    .modal-close:hover {
+      background: var(--bg-surface-elevated);
+      color: var(--text-main);
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      background: var(--bg-input);
+      color: var(--text-main);
+      font-size: 15px;
+      transition: var(--transition);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px var(--color-primary-light);
+      outline: none;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      padding: 14px 20px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      font-size: 14px;
+      font-weight: 500;
+      border-left: 4px solid var(--color-primary);
+      transform: translateX(120%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      max-width: 360px;
+      pointer-events: auto;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+
+    .toast.toast-success {
+      border-left-color: var(--color-success);
+    }
+
+    .toast.toast-error {
+      border-left-color: var(--color-danger);
+    }
+
+    .toast.toast-info {
+      border-left-color: var(--color-primary);
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-surface);
+    }
+
+    @media (max-width: 768px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .header-actions {
+        justify-content: stretch;
+      }
+
+      .header-actions .btn {
+        flex: 1;
+        justify-content: center;
+      }
+
+      .toolbar {
+        flex-direction: column;
+      }
+
+      .search-box {
+        width: 100%;
+      }
+
+      .filter-select {
+        width: 100%;
+      }
+
+      .stamps-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      main {
+        padding: 16px;
+      }
+
+      .hero {
+        padding: 24px 16px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    .no-scroll {
+      overflow: hidden;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🧮 Quiz Penjumlahan Bilangan Bulat</h1>
-        <p class="subtitle">Ketik jawabanmu dan tekan Enter!</p>
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🌍</span>
+        <span>Passport Stamp Collector</span>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-primary" id="btnAddStamp" aria-label="Tambah stempel baru">
+          + Tambah Stempel
+        </button>
+        <button class="btn btn-ghost" id="btnExport" aria-label="Ekspor koleksi">
+          📥 Export
+        </button>
+        <button class="btn btn-ghost" id="btnToggleTheme" aria-label="Ganti tema gelap/terang">
+          🌙
+        </button>
+      </div>
+    </div>
+  </header>
 
-        <div class="stats">
-            <div class="stat-box">
-                <div class="stat-label">Skor</div>
-                <div class="stat-value" id="score">0</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-label">Streak</div>
-                <div class="stat-value" id="streak">0</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-label">Soal</div>
-                <div class="stat-value" id="questionCount">0</div>
-            </div>
-        </div>
-
-        <div class="question-card">
-            <div class="question-text" id="question">Loading...</div>
-            <input 
-                type="number" 
-                class="answer-input" 
-                id="answerInput" 
-                placeholder="Ketik jawaban..."
-                autocomplete="off"
-            >
-            <button class="submit-btn" id="submitBtn">Cek Jawaban</button>
-            <button class="next-btn" id="nextBtn">Soal Berikutnya →</button>
-            
-            <div class="feedback" id="feedback"></div>
-            <div class="explanation" id="explanation"></div>
-        </div>
+  <main id="app">
+    <div class="hero">
+      <h1>Koleksi Stempel Paspor</h1>
+      <p>Kumpulkan kenangan perjalanan Anda. Setiap stempel adalah cerita yang tidak akan pernah terlupakan.</p>
     </div>
 
-    <div class="streak-animation" id="streakAnimation"></div>
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card">
+        <div class="stat-value" id="statTotal">0</div>
+        <div class="stat-label">Total Stempel</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statCountries">0</div>
+        <div class="stat-label">Negara</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statRecent">0</div>
+        <div class="stat-label">Bulan Ini</div>
+      </div>
+    </div>
 
-    <script>
-        let score = 0;
-        let streak = 0;
-        let questionCount = 0;
-        let currentAnswer = 0;
-        let isAnswered = false;
+    <div class="toolbar">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Cari negara, kota, atau catatan..." aria-label="Cari stempel">
+      </div>
+      <select class="filter-select" id="sortSelect" aria-label="Urutkan stempel">
+        <option value="newest">Terbaru</option>
+        <option value="oldest">Terlama</option>
+        <option value="country">Negara (A-Z)</option>
+        <option value="city">Kota (A-Z)</option>
+      </select>
+    </div>
 
-        const questionEl = document.getElementById('question');
-        const answerInput = document.getElementById('answerInput');
-        const submitBtn = document.getElementById('submitBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const feedbackEl = document.getElementById('feedback');
-        const explanationEl = document.getElementById('explanation');
-        const scoreEl = document.getElementById('score');
-        const streakEl = document.getElementById('streak');
-        const questionCountEl = document.getElementById('questionCount');
-        const streakAnimation = document.getElementById('streakAnimation');
+    <div id="stampsContainer">
+      <div class="stamps-grid" id="stampsGrid"></div>
+      <div class="empty-state" id="emptyState" style="display: none;">
+        <div class="empty-state-icon">📘</div>
+        <h3>Belum Ada Stempel</h3>
+        <p>Mulai kumpulkan stempel paspor Anda dengan menambahkan perjalanan pertama.</p>
+        <button class="btn btn-primary" id="btnEmptyAdd" style="margin-top: 16px;">
+          + Tambah Stempel Pertama
+        </button>
+      </div>
+    </div>
+  </main>
 
-        function generateQuestion() {
-            const a = Math.floor(Math.random() * 101) - 50;
-            const b = Math.floor(Math.random() * 101) - 50;
-            currentAnswer = a + b;
-            questionEl.textContent = `${a} + ${b} = ?`;
-            answerInput.value = '';
-            answerInput.disabled = false;
-            submitBtn.style.display = 'block';
-            nextBtn.style.display = 'none';
-            feedbackEl.style.display = 'none';
-            explanationEl.style.display = 'none';
-            isAnswered = false;
-            answerInput.focus();
+  <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">Tambah Stempel</h2>
+        <button class="modal-close" id="modalClose" aria-label="Tutup">&times;</button>
+      </div>
+      <form id="stampForm">
+        <input type="hidden" id="stampId">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="stampCountry">Negara</label>
+            <input type="text" id="stampCountry" required placeholder="Contoh: Jepang">
+          </div>
+          <div class="form-group">
+            <label for="stampCity">Kota</label>
+            <input type="text" id="stampCity" required placeholder="Contoh: Tokyo">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="stampDate">Tanggal</label>
+          <input type="date" id="stampDate" required>
+        </div>
+        <div class="form-group">
+          <label for="stampEmoji">Ikon Stempel</label>
+          <select id="stampEmoji">
+            <option value="✈️">✈️ Pesawat</option>
+            <option value="🗾">🗾 Peta</option>
+            <option value="🏯">🏯 Bersejarah</option>
+            <option value="🏖️">🏖️ Pantai</option>
+            <option value="🏔️">🏔️ Gunung</option>
+            <option value="🌃">🌃 Kota Malam</option>
+            <option value="🌸">🌸 Alam</option>
+            <option value="🍜">🍜 Kuliner</option>
+            <option value="🎭">🎭 Budaya</option>
+            <option value="📸">📸 Foto</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="stampNotes">Catatan</label>
+          <textarea id="stampNotes" placeholder="Cerita singkat tentang perjalanan Anda..."></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" id="btnCancel">Batal</button>
+          <button type="button" class="btn btn-danger btn-sm" id="btnDelete" style="display: none;">Hapus</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; <span id="year"></span> Passport Stamp Collector. Dibuat dengan Vanilla HTML, CSS, dan JavaScript.</p>
+  </footer>
+
+  <script>
+    'use strict';
+
+    const App = {
+      state: {
+        theme: localStorage.getItem('app_theme') || 'light',
+        stamps: [],
+        filter: 'all',
+        searchQuery: '',
+        sortBy: 'newest',
+        editingId: null
+      },
+
+      dom: {},
+
+      STORAGE_KEY: 'passport_stamp_collector_data',
+
+      init() {
+        this.cacheDOM();
+        this.loadState();
+        this.applyTheme();
+        this.bindEvents();
+        this.render();
+      },
+
+      cacheDOM() {
+        this.dom.html = document.documentElement;
+        this.dom.app = document.getElementById('app');
+        this.dom.stampsGrid = document.getElementById('stampsGrid');
+        this.dom.emptyState = document.getElementById('emptyState');
+        this.dom.searchInput = document.getElementById('searchInput');
+        this.dom.sortSelect = document.getElementById('sortSelect');
+        this.dom.toastContainer = document.getElementById('toast-container');
+        this.dom.yearSpan = document.getElementById('year');
+        this.dom.modalOverlay = document.getElementById('modalOverlay');
+        this.dom.modal = document.getElementById('modal');
+        this.dom.modalTitle = document.getElementById('modalTitle');
+        this.dom.stampForm = document.getElementById('stampForm');
+        this.dom.stampId = document.getElementById('stampId');
+        this.dom.stampCountry = document.getElementById('stampCountry');
+        this.dom.stampCity = document.getElementById('stampCity');
+        this.dom.stampDate = document.getElementById('stampDate');
+        this.dom.stampEmoji = document.getElementById('stampEmoji');
+        this.dom.stampNotes = document.getElementById('stampNotes');
+        this.dom.btnDelete = document.getElementById('btnDelete');
+        this.dom.statTotal = document.getElementById('statTotal');
+        this.dom.statCountries = document.getElementById('statCountries');
+        this.dom.statRecent = document.getElementById('statRecent');
+
+        if (this.dom.yearSpan) {
+          this.dom.yearSpan.textContent = new Date().getFullYear();
+        }
+      },
+
+      loadState() {
+        try {
+          const raw = localStorage.getItem(this.STORAGE_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            this.state.stamps = Array.isArray(parsed.stamps) ? parsed.stamps : [];
+          }
+        } catch (e) {
+          console.error('Failed to load state from localStorage:', e);
+          this.state.stamps = [];
+        }
+      },
+
+      saveState() {
+        try {
+          localStorage.setItem(this.STORAGE_KEY, JSON.stringify({
+            stamps: this.state.stamps
+          }));
+        } catch (e) {
+          console.error('Failed to save state to localStorage:', e);
+          this.showToast('Gagal menyimpan data ke penyimpanan lokal!', 'error');
+        }
+      },
+
+      applyTheme() {
+        if (this.state.theme === 'dark') {
+          this.dom.html.classList.add('dark');
+        } else {
+          this.dom.html.classList.remove('dark');
+        }
+        localStorage.setItem('app_theme', this.state.theme);
+      },
+
+      toggleTheme() {
+        this.state.theme = this.state.theme === 'light' ? 'dark' : 'light';
+        this.applyTheme();
+        this.showToast('Tema berhasil diubah', 'info');
+      },
+
+      showToast(message, type = 'info') {
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.textContent = message;
+        this.dom.toastContainer.appendChild(toast);
+        requestAnimationFrame(() => {
+          toast.classList.add('show');
+        });
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      },
+
+      getFilteredStamps() {
+        let result = [...this.state.stamps];
+
+        if (this.state.searchQuery.trim()) {
+          const q = this.state.searchQuery.toLowerCase();
+          result = result.filter(s =>
+            s.country.toLowerCase().includes(q) ||
+            s.city.toLowerCase().includes(q) ||
+            (s.notes && s.notes.toLowerCase().includes(q))
+          );
         }
 
-        function showStreakAnimation() {
-            streakAnimation.textContent = `🔥 ${streak}x Streak!`;
-            streakAnimation.classList.remove('show');
-            void streakAnimation.offsetWidth;
-            streakAnimation.classList.add('show');
+        switch (this.state.sortBy) {
+          case 'newest':
+            result.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            break;
+          case 'oldest':
+            result.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+            break;
+          case 'country':
+            result.sort((a, b) => a.country.localeCompare(b.country));
+            break;
+          case 'city':
+            result.sort((a, b) => a.city.localeCompare(b.city));
+            break;
         }
 
-        function checkAnswer() {
-            if (isAnswered) return;
+        return result;
+      },
 
-            const userAnswer = parseInt(answerInput.value);
+      computeStats() {
+        const stamps = this.state.stamps;
+        const countries = new Set(stamps.map(s => s.country.trim().toLowerCase())).size;
 
-            if (isNaN(userAnswer)) {
-                feedbackEl.textContent = '⚠️ Masukkan angka yang valid!';
-                feedbackEl.className = 'feedback';
-                feedbackEl.style.display = 'block';
-                return;
-            }
+        const now = new Date();
+        const currentMonth = now.getMonth();
+        const currentYear = now.getFullYear();
+        const recentCount = stamps.filter(s => {
+          if (!s.date) return false;
+          const d = new Date(s.date);
+          return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
+        }).length;
 
-            isAnswered = true;
-            questionCount++;
-            questionCountEl.textContent = questionCount;
+        return {
+          total: stamps.length,
+          countries: countries,
+          recent: recentCount
+        };
+      },
 
-            if (userAnswer === currentAnswer) {
-                score += 10 + (streak * 2);
-                streak++;
-                feedbackEl.textContent = `✅ Benar! (+${10 + ((streak - 1) * 2)} poin)`;
-                feedbackEl.className = 'feedback correct';
-                if (streak > 0 && streak % 5 === 0) {
-                    showStreakAnimation();
-                }
-            } else {
-                streak = 0;
-                feedbackEl.textContent = `❌ Salah! Jawaban yang benar adalah ${currentAnswer}`;
-                feedbackEl.className = 'feedback incorrect';
-                
-                explanationEl.innerHTML = `
-                    <strong>Penjelasan:</strong><br>
-                    ${extractNumbersFromQuestion()} = ${currentAnswer}<br><br>
-                    ${generateExplanation()}
-                `;
-                explanationEl.style.display = 'block';
-            }
+      openModal(stamp = null) {
+        this.dom.modalOverlay.classList.add('active');
+        this.dom.modal.classList.add('active');
+        document.body.classList.add('no-scroll');
 
-            scoreEl.textContent = score;
-            streakEl.textContent = streak;
-            feedbackEl.style.display = 'block';
-            answerInput.disabled = true;
-            submitBtn.style.display = 'none';
-            nextBtn.style.display = 'block';
-            nextBtn.focus();
+        if (stamp) {
+          this.dom.modalTitle.textContent = 'Edit Stempel';
+          this.dom.stampId.value = stamp.id;
+          this.dom.stampCountry.value = stamp.country;
+          this.dom.stampCity.value = stamp.city;
+          this.dom.stampDate.value = stamp.date;
+          this.dom.stampEmoji.value = stamp.emoji || '✈️';
+          this.dom.stampNotes.value = stamp.notes || '';
+          this.dom.btnDelete.style.display = 'inline-flex';
+          this.state.editingId = stamp.id;
+        } else {
+          this.dom.modalTitle.textContent = 'Tambah Stempel';
+          this.dom.stampForm.reset();
+          this.dom.stampId.value = '';
+          this.dom.btnDelete.style.display = 'none';
+          this.dom.stampDate.value = new Date().toISOString().split('T')[0];
+          this.state.editingId = null;
         }
 
-        function extractNumbersFromQuestion() {
-            const match = questionEl.textContent.match(/(-?\d+)\s*\+\s*(-?\d+)/);
-            if (match) {
-                const a = parseInt(match[1]);
-                const b = parseInt(match[2]);
-                return `${a} + ${b}`;
-            }
-            return questionEl.textContent;
+        setTimeout(() => this.dom.stampCountry.focus(), 100);
+      },
+
+      closeModal() {
+        this.dom.modalOverlay.classList.remove('active');
+        this.dom.modal.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+        this.state.editingId = null;
+        this.resetFormFields();
+        this.dom.stampForm.reset();
+        document.querySelector('#stampForm button[type="submit"]').style.display = '';
+      },
+
+      handleFormSubmit(e) {
+        e.preventDefault();
+
+        const country = this.dom.stampCountry.value.trim();
+        const city = this.dom.stampCity.value.trim();
+        const date = this.dom.stampDate.value;
+        const emoji = this.dom.stampEmoji.value;
+        const notes = this.dom.stampNotes.value.trim();
+
+        if (!country || !city || !date) {
+          this.showToast('Mohon lengkapi data stempel', 'error');
+          return;
         }
 
-        function generateExplanation() {
-            const match = questionEl.textContent.match(/(-?\d+)\s*\+\s*(-?\d+)/);
-            if (!match) return '';
-            
-            const a = parseInt(match[1]);
-            const b = parseInt(match[2]);
-            const result = a + b;
-
-            if (a >= 0 && b >= 0) {
-                return `Kedua bilangan bernilai positif, jadi hasilnya juga positif: ${a} + ${b} = ${result}`;
-            } else if (a < 0 && b < 0) {
-                return `Kedua bilangan bernilai negatif, jadi hasilnya juga negatif: ${a} + ${b} = ${result}`;
-            } else if (a < 0 && b > 0) {
-                if (Math.abs(a) > b) {
-                    return `Nilai absolut ${a} (${Math.abs(a)}) lebih besar dari ${b}, jadi hasil negatif: ${a} + ${b} = ${result}`;
-                } else if (Math.abs(a) < b) {
-                    return `Nilai absolut ${b} (${b}) lebih besar dari ${a} (${Math.abs(a)}), jadi hasil positif: ${a} + ${b} = ${result}`;
-                } else {
-                    return `Nilai absolut sama besar, jadi hasilnya nol (saling menghilangkan): ${a} + ${b} = ${result}`;
-                }
-            } else {
-                if (Math.abs(b) > Math.abs(a)) {
-                    return `Nilai absolut ${b} (${Math.abs(b)}) lebih besar dari ${a} (${Math.abs(a)}), jadi hasilnya mengikuti tanda ${b}: ${a} + ${b} = ${result}`;
-                } else if (Math.abs(b) < Math.abs(a)) {
-                    return `Nilai absolut ${a} (${Math.abs(a)}) lebih besar dari ${b} (${Math.abs(b)}), jadi hasilnya mengikuti tanda ${a}: ${a} + ${b} = ${result}`;
-                } else {
-                    return `Nilai absolut sama besar, jadi hasilnya nol (saling menghilangkan): ${a} + ${b} = ${result}`;
-                }
-            }
+        if (this.state.editingId) {
+          const index = this.state.stamps.findIndex(s => s.id === this.state.editingId);
+          if (index !== -1) {
+            this.state.stamps[index] = {
+              ...this.state.stamps[index],
+              country,
+              city,
+              date,
+              emoji,
+              notes,
+              updatedAt: Date.now()
+            };
+            this.showToast('Stempel berhasil diperbarui', 'success');
+          }
+        } else {
+          const newStamp = {
+            id: Date.now().toString(36) + Math.random().toString(36).substr(2, 9),
+            country,
+            city,
+            date,
+            emoji,
+            notes,
+            createdAt: Date.now()
+          };
+          this.state.stamps.unshift(newStamp);
+          this.showToast('Stempel berhasil ditambahkan', 'success');
         }
 
-        submitBtn.addEventListener('click', checkAnswer);
-        
-        nextBtn.addEventListener('click', generateQuestion);
+        this.saveState();
+        this.closeModal();
+        this.render();
+      },
 
-        answerInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !isAnswered) {
-                checkAnswer();
+      handleDelete() {
+        if (!this.state.editingId) return;
+
+        const stamp = this.state.stamps.find(s => s.id === this.state.editingId);
+        if (!stamp) return;
+
+        if (confirm(`Hapus stempel dari ${stamp.city}, ${stamp.country}?`)) {
+          this.state.stamps = this.state.stamps.filter(s => s.id !== this.state.editingId);
+          this.saveState();
+          this.closeModal();
+          this.render();
+          this.showToast('Stempel berhasil dihapus', 'info');
+        }
+      },
+
+      handleViewDetail(stampId) {
+        const stamp = this.state.stamps.find(s => s.id === stampId);
+        if (!stamp) return;
+
+        this.dom.modalTitle.textContent = 'Detail Stempel';
+        this.dom.stampId.value = stamp.id;
+        this.dom.stampCountry.value = stamp.country;
+        this.dom.stampCity.value = stamp.city;
+        this.dom.stampDate.value = stamp.date;
+        this.dom.stampEmoji.value = stamp.emoji || '✈️';
+        this.dom.stampNotes.value = stamp.notes || '';
+
+        this.dom.stampCountry.disabled = true;
+        this.dom.stampCity.disabled = true;
+        this.dom.stampDate.disabled = true;
+        this.dom.stampEmoji.disabled = true;
+        this.dom.stampNotes.disabled = true;
+
+        this.dom.btnDelete.style.display = 'none';
+        document.querySelector('#stampForm button[type="submit"]').style.display = 'none';
+
+        this.dom.modalOverlay.classList.add('active');
+        this.dom.modal.classList.add('active');
+        document.body.classList.add('no-scroll');
+        this.state.editingId = stamp.id;
+      },
+
+      resetFormFields() {
+        this.dom.stampCountry.disabled = false;
+        this.dom.stampCity.disabled = false;
+        this.dom.stampDate.disabled = false;
+        this.dom.stampEmoji.disabled = false;
+        this.dom.stampNotes.disabled = false;
+        document.querySelector('#stampForm button[type="submit"]').style.display = '';
+      },
+
+      exportData() {
+        if (this.state.stamps.length === 0) {
+          this.showToast('Tidak ada data untuk diekspor', 'error');
+          return;
+        }
+
+        const dataStr = JSON.stringify(this.state.stamps, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `passport-stamps-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        this.showToast('Koleksi berhasil diekspor', 'success');
+      },
+
+      bindEvents() {
+        this.dom.html.addEventListener('click', (e) => {
+          const addBtn = e.target.closest('#btnAddStamp');
+          const emptyAddBtn = e.target.closest('#btnEmptyAdd');
+          const exportBtn = e.target.closest('#btnExport');
+          const themeBtn = e.target.closest('#btnToggleTheme');
+          const modalClose = e.target.closest('#modalClose');
+          const btnCancel = e.target.closest('#btnCancel');
+          const btnDelete = e.target.closest('#btnDelete');
+          const viewBtn = e.target.closest('.btn-view');
+          const editBtn = e.target.closest('.btn-edit');
+
+          if (addBtn || emptyAddBtn) {
+            this.resetFormFields();
+            this.openModal(null);
+          }
+
+          if (exportBtn) {
+            this.exportData();
+          }
+
+          if (themeBtn) {
+            this.toggleTheme();
+          }
+
+          if (modalClose || btnCancel) {
+            this.closeModal();
+          }
+
+          if (btnDelete) {
+            this.handleDelete();
+          }
+
+          if (viewBtn) {
+            const id = viewBtn.dataset.id;
+            if (id) this.handleViewDetail(id);
+          }
+
+          if (editBtn) {
+            const id = editBtn.dataset.id;
+            const stamp = this.state.stamps.find(s => s.id === id);
+            if (stamp) {
+              this.resetFormFields();
+              this.openModal(stamp);
             }
+          }
+
+          if (e.target === this.dom.modalOverlay) {
+            this.closeModal();
+          }
         });
 
-        generateQuestion();
-    </script>
+        this.dom.stampForm.addEventListener('submit', (e) => this.handleFormSubmit(e));
+
+        this.dom.searchInput.addEventListener('input', (e) => {
+          this.state.searchQuery = e.target.value;
+          this.render();
+        });
+
+        this.dom.sortSelect.addEventListener('change', (e) => {
+          this.state.sortBy = e.target.value;
+          this.render();
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && this.dom.modalOverlay.classList.contains('active')) {
+            this.closeModal();
+          }
+        });
+      },
+
+      render() {
+        const filtered = this.getFilteredStamps();
+        const stats = this.computeStats();
+
+        this.dom.statTotal.textContent = stats.total;
+        this.dom.statCountries.textContent = stats.countries;
+        this.dom.statRecent.textContent = stats.recent;
+
+        if (filtered.length === 0) {
+          this.dom.stampsGrid.innerHTML = '';
+          this.dom.emptyState.style.display = 'block';
+        } else {
+          this.dom.emptyState.style.display = 'none';
+          this.dom.stampsGrid.innerHTML = filtered.map(stamp => `
+            <div class="stamp-card" data-id="${stamp.id}">
+              <div class="stamp-emoji">${stamp.emoji || '✈️'}</div>
+              <div class="stamp-country">${this.escapeHtml(stamp.country)}</div>
+              <div class="stamp-city">${this.escapeHtml(stamp.city)}</div>
+              <div class="stamp-date">${this.formatDate(stamp.date)}</div>
+              ${stamp.notes ? `<div style="font-size:13px;color:var(--text-muted);text-align:center;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${this.escapeHtml(stamp.notes)}</div>` : ''}
+              <div class="stamp-actions">
+                <button class="btn-view btn btn-ghost btn-sm" data-id="${stamp.id}" aria-label="Lihat detail">👁️ Lihat</button>
+                <button class="btn-edit btn btn-ghost btn-sm" data-id="${stamp.id}" aria-label="Edit stempel">✏️ Edit</button>
+              </div>
+            </div>
+          `).join('');
+        }
+      },
+
+      escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      },
+
+      formatDate(dateStr) {
+        if (!dateStr) return '';
+        const [y, m, d] = dateStr.split('-');
+        return `${d}/${m}/${y}`;
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => App.init());
+  </script>
 </body>
 </html>
