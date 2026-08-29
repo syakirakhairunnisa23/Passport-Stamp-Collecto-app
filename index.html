@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Passport Stamp Collector — Koleksi Stempel Paspor Digital</title>
-  <meta name="description" content="Kumpulkan dan kelola koleksi stempel paspor virtual Anda. Catat perjalanan, negara, dan kenangan liburan dalam satu aplikasi web sederhana.">
+  <title>Passport Stamp Collector — Koleksi Stempel Perjalanan</title>
+  <meta name="description" content="Koleksi stempel paspor digital perjalananmu. Catat negara, kota, dan kenangan liburanmu dalam satu aplikasi.">
   
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>">
   
@@ -15,49 +15,40 @@
   <style>
     :root {
       --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-      --bg-body: #faf8f5;
+      --bg-body: #fffbeb;
       --bg-surface: #ffffff;
-      --bg-surface-elevated: #f5f2ed;
-      --bg-input: #ffffff;
-      --border-color: #e2d9cc;
-      --text-main: #2d1810;
-      --text-muted: #8b7355;
-      --color-primary: #1e3a5f;
-      --color-primary-hover: #152942;
-      --color-primary-light: #f0f4f8;
-      --color-accent: #d4af37;
-      --color-accent-hover: #b8962e;
-      --color-danger: #c0392b;
-      --color-success: #27ae60;
-      --shadow-sm: 0 1px 2px 0 rgb(45 24 16 / 0.06);
-      --shadow-md: 0 4px 6px -1px rgb(45 24 16 / 0.08), 0 2px 4px -2px rgb(45 24 16 / 0.06);
-      --shadow-lg: 0 10px 15px -3px rgb(45 24 16 / 0.1), 0 4px 6px -4px rgb(45 24 16 / 0.08);
+      --bg-surface-elevated: #fef3c7;
+      --border-color: #fde68a;
+      --text-main: #1c1917;
+      --text-muted: #78716c;
+      --color-primary: #f59e0b;
+      --color-primary-hover: #d97706;
+      --color-primary-light: #fef3c7;
+      --color-accent: #10b981;
+      --color-danger: #ef4444;
+      --color-success: #10b981;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
       --radius-sm: 6px;
       --radius-md: 10px;
       --radius-lg: 16px;
       --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      --stamp-border: #b8860b;
     }
 
     html.dark {
-      --bg-body: #0b0f19;
-      --bg-surface: #111827;
-      --bg-surface-elevated: #1f2937;
-      --bg-input: #1f2937;
-      --border-color: #374151;
-      --text-main: #f9fafb;
-      --text-muted: #9ca3af;
-      --color-primary: #6366f1;
-      --color-primary-hover: #4f46e5;
-      --color-primary-light: #1e1b4b;
-      --color-accent: #fbbf24;
-      --color-accent-hover: #f59e0b;
-      --color-danger: #ef4444;
-      --color-success: #10b981;
+      --bg-body: #1c1917;
+      --bg-surface: #292524;
+      --bg-surface-elevated: #44403c;
+      --border-color: #57534e;
+      --text-main: #fafaf9;
+      --text-muted: #a8a29e;
+      --color-primary: #fbbf24;
+      --color-primary-hover: #f59e0b;
+      --color-primary-light: #451a03;
       --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.5);
       --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5);
       --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.6);
-      --stamp-border: #fbbf24;
     }
 
     *, *::before, *::after {
@@ -77,173 +68,72 @@
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    a {
-      color: var(--color-primary);
-      text-decoration: none;
-    }
-
-    button {
-      cursor: pointer;
-      border: none;
-      font-family: inherit;
-      font-weight: 600;
+    header {
+      background-color: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(8px);
       transition: var(--transition);
     }
 
-    button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
-      outline: 2px solid var(--color-primary);
-      outline-offset: 2px;
-    }
-
-    input, select, textarea {
-      font-family: inherit;
-      font-size: inherit;
-    }
-
-    header {
-      background: var(--bg-surface);
-      border-bottom: 1px solid var(--border-color);
-      padding: 16px 24px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(8px);
-      background: rgba(var(--bg-surface), 0.8);
-    }
-
-    .header-inner {
-      max-width: 1200px;
-      margin: 0 auto;
+    .brand {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
+      gap: 0.75rem;
     }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 20px;
-      font-weight: 800;
-      color: var(--text-main);
-      letter-spacing: -0.5px;
-    }
-
-    .logo-icon {
-      font-size: 28px;
+    .brand-icon {
+      font-size: 2rem;
       line-height: 1;
+    }
+
+    .brand-text h1 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--text-main);
+    }
+
+    .brand-text p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
     }
 
     .header-actions {
       display: flex;
+      gap: 0.5rem;
       align-items: center;
-      gap: 8px;
-    }
-
-    .btn {
-      padding: 10px 18px;
-      border-radius: var(--radius-md);
-      font-size: 14px;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-    }
-
-    .btn-primary {
-      background: var(--color-primary);
-      color: #fff;
-    }
-
-    .btn-primary:hover {
-      background: var(--color-primary-hover);
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .btn-primary:active {
-      transform: translateY(0);
-    }
-
-    .btn-accent {
-      background: var(--color-accent);
-      color: #1a1a1a;
-    }
-
-    .btn-accent:hover {
-      background: var(--color-accent-hover);
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--text-muted);
-      border: 1px solid var(--border-color);
-    }
-
-    .btn-ghost:hover {
-      background: var(--bg-surface-elevated);
-      color: var(--text-main);
-    }
-
-    .btn-danger {
-      background: var(--color-danger);
-      color: #fff;
-    }
-
-    .btn-danger:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
-    }
-
-    .btn-sm {
-      padding: 6px 12px;
-      font-size: 13px;
     }
 
     main {
       flex: 1;
-      max-width: 1200px;
+      padding: 1.5rem;
+      max-width: 1280px;
       width: 100%;
       margin: 0 auto;
-      padding: 24px;
     }
 
-    .hero {
-      text-align: center;
-      padding: 40px 20px 30px;
-    }
-
-    .hero h1 {
-      font-size: clamp(24px, 4vw, 36px);
-      font-weight: 800;
-      margin-bottom: 8px;
-      color: var(--text-main);
-    }
-
-    .hero p {
-      color: var(--text-muted);
-      font-size: 16px;
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    .stats-grid {
+    .stats-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
     }
 
     .stat-card {
-      background: var(--bg-surface);
+      background-color: var(--bg-surface);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 20px;
+      padding: 1.25rem;
       text-align: center;
       box-shadow: var(--shadow-sm);
       transition: var(--transition);
@@ -255,24 +145,24 @@
     }
 
     .stat-value {
-      font-size: 28px;
+      font-size: 2rem;
       font-weight: 800;
       color: var(--color-primary);
+      line-height: 1;
     }
 
     .stat-label {
-      font-size: 13px;
+      font-size: 0.8rem;
       color: var(--text-muted);
-      margin-top: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      margin-top: 0.25rem;
+      font-weight: 500;
     }
 
-    .toolbar {
+    .controls-row {
       display: flex;
-      gap: 12px;
       flex-wrap: wrap;
-      margin-bottom: 24px;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
       align-items: center;
     }
 
@@ -284,16 +174,18 @@
 
     .search-box input {
       width: 100%;
-      padding: 12px 16px 12px 40px;
+      padding: 0.75rem 1rem 0.75rem 2.5rem;
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      background: var(--bg-input);
+      background-color: var(--bg-surface);
       color: var(--text-main);
-      font-size: 14px;
+      font-family: var(--font-main);
+      font-size: 0.95rem;
       transition: var(--transition);
     }
 
     .search-box input:focus {
+      outline: none;
       border-color: var(--color-primary);
       box-shadow: 0 0 0 3px var(--color-primary-light);
     }
@@ -301,50 +193,122 @@
     .search-box::before {
       content: "🔍";
       position: absolute;
-      left: 12px;
+      left: 0.85rem;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 16px;
+      font-size: 0.9rem;
       opacity: 0.6;
       pointer-events: none;
     }
 
-    .filter-select {
-      padding: 12px 16px;
+    select {
+      padding: 0.75rem 2.5rem 0.75rem 1rem;
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      background: var(--bg-input);
+      background-color: var(--bg-surface);
       color: var(--text-main);
-      font-size: 14px;
-      min-width: 160px;
+      font-family: var(--font-main);
+      font-size: 0.95rem;
       cursor: pointer;
+      transition: var(--transition);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2378716c' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px var(--color-primary-light);
+    }
+
+    button {
+      padding: 0.75rem 1.25rem;
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: var(--font-main);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+    }
+
+    button:focus-visible {
+      outline: 3px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background-color: var(--color-primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--color-primary-hover);
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-surface-elevated);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--border-color);
+    }
+
+    .btn-danger {
+      background-color: #fee2e2;
+      color: #b91c1c;
+    }
+
+    html.dark .btn-danger {
+      background-color: #7f1d1d;
+      color: #fecaca;
+    }
+
+    .btn-danger:hover {
+      background-color: #fecaca;
+    }
+
+    html.dark .btn-danger:hover {
+      background-color: #991b1b;
+    }
+
+    .btn-sm {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.85rem;
     }
 
     .stamps-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
     }
 
     .stamp-card {
-      background: var(--bg-surface);
+      background-color: var(--bg-surface);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
-      padding: 24px;
+      padding: 1.25rem;
       box-shadow: var(--shadow-sm);
       transition: var(--transition);
       position: relative;
       overflow: hidden;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
     }
 
     .stamp-card:hover {
-      transform: translateY(-4px);
       box-shadow: var(--shadow-lg);
-      border-color: var(--color-accent);
+      transform: translateY(-3px);
     }
 
     .stamp-card::before {
@@ -354,183 +318,166 @@
       left: 0;
       right: 0;
       height: 4px;
-      background: linear-gradient(90deg, var(--color-accent), var(--color-primary));
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
     }
 
-    .stamp-card:hover::before {
-      opacity: 1;
+    .stamp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
     }
 
     .stamp-emoji {
-      font-size: 48px;
-      text-align: center;
+      font-size: 2.5rem;
       line-height: 1;
-      margin-bottom: 4px;
     }
 
     .stamp-country {
-      font-size: 18px;
+      font-size: 1.1rem;
       font-weight: 700;
       color: var(--text-main);
-      text-align: center;
+      margin-bottom: 0.15rem;
     }
 
     .stamp-city {
-      font-size: 14px;
+      font-size: 0.9rem;
       color: var(--text-muted);
-      text-align: center;
+      font-weight: 500;
     }
 
-    .stamp-date {
-      font-size: 12px;
+    .stamp-meta {
+      font-size: 0.8rem;
       color: var(--text-muted);
-      text-align: center;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      margin-top: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stamp-note {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border-color);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-style: italic;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .stamp-actions {
       display: flex;
-      gap: 8px;
-      margin-top: auto;
-      padding-top: 8px;
-      border-top: 1px solid var(--border-color);
-    }
-
-    .stamp-actions button {
-      flex: 1;
-      padding: 8px;
-      border-radius: var(--radius-sm);
-      font-size: 13px;
-      background: var(--bg-surface-elevated);
-      color: var(--text-main);
-    }
-
-    .stamp-actions button:hover {
-      background: var(--border-color);
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      justify-content: flex-end;
     }
 
     .empty-state {
       text-align: center;
-      padding: 60px 20px;
+      padding: 4rem 2rem;
       color: var(--text-muted);
     }
 
     .empty-state-icon {
-      font-size: 64px;
-      margin-bottom: 16px;
-      opacity: 0.7;
+      font-size: 4rem;
+      margin-bottom: 1rem;
     }
 
     .empty-state h3 {
-      font-size: 20px;
-      margin-bottom: 8px;
+      font-size: 1.25rem;
+      font-weight: 700;
       color: var(--text-main);
+      margin-bottom: 0.5rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-color);
+      background-color: var(--bg-surface);
     }
 
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(4px);
+      background: rgb(0 0 0 / 0.5);
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 200;
-      padding: 20px;
+      z-index: 100;
+      padding: 1rem;
       opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
     }
 
     .modal-overlay.active {
       opacity: 1;
-      visibility: visible;
+      pointer-events: all;
     }
 
     .modal {
-      background: var(--bg-surface);
+      background-color: var(--bg-surface);
       border-radius: var(--radius-lg);
-      padding: 32px;
-      max-width: 500px;
+      padding: 1.5rem;
       width: 100%;
+      max-width: 480px;
       max-height: 90vh;
       overflow-y: auto;
       box-shadow: var(--shadow-lg);
       transform: translateY(20px);
-      transition: transform 0.3s ease;
+      transition: transform 0.2s ease;
     }
 
     .modal-overlay.active .modal {
       transform: translateY(0);
     }
 
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-    }
-
-    .modal-title {
-      font-size: 22px;
+    .modal h2 {
+      font-size: 1.25rem;
       font-weight: 700;
-    }
-
-    .modal-close {
-      background: none;
-      border: none;
-      font-size: 24px;
-      color: var(--text-muted);
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      padding: 0;
-    }
-
-    .modal-close:hover {
-      background: var(--bg-surface-elevated);
+      margin-bottom: 1.25rem;
       color: var(--text-main);
     }
 
     .form-group {
-      margin-bottom: 16px;
+      margin-bottom: 1rem;
     }
 
     .form-group label {
       display: block;
-      font-size: 13px;
+      font-size: 0.85rem;
       font-weight: 600;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      color: var(--text-main);
+      margin-bottom: 0.35rem;
     }
 
     .form-group input,
-    .form-group textarea,
-    .form-group select {
+    .form-group select,
+    .form-group textarea {
       width: 100%;
-      padding: 12px 14px;
+      padding: 0.75rem 1rem;
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      background: var(--bg-input);
+      background-color: var(--bg-surface);
       color: var(--text-main);
-      font-size: 15px;
+      font-family: var(--font-main);
+      font-size: 0.95rem;
       transition: var(--transition);
     }
 
     .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
       border-color: var(--color-primary);
       box-shadow: 0 0 0 3px var(--color-primary-light);
-      outline: none;
     }
 
     .form-group textarea {
@@ -541,94 +488,63 @@
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 1rem;
     }
 
-    .modal-footer {
+    .modal-actions {
       display: flex;
-      gap: 10px;
+      gap: 0.75rem;
       justify-content: flex-end;
-      margin-top: 24px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border-color);
+      margin-top: 1.5rem;
     }
 
     .toast-container {
       position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 300;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 200;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 0.75rem;
       pointer-events: none;
     }
 
     .toast {
-      background: var(--bg-surface);
-      color: var(--text-main);
-      padding: 14px 20px;
+      padding: 1rem 1.25rem;
       border-radius: var(--radius-md);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.9rem;
       box-shadow: var(--shadow-lg);
-      font-size: 14px;
-      font-weight: 500;
-      border-left: 4px solid var(--color-primary);
       transform: translateX(120%);
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.3s ease;
+      pointer-events: all;
       max-width: 360px;
-      pointer-events: auto;
     }
 
     .toast.show {
       transform: translateX(0);
     }
 
-    .toast.toast-success {
-      border-left-color: var(--color-success);
+    .toast-info {
+      background-color: var(--color-primary);
     }
 
-    .toast.toast-error {
-      border-left-color: var(--color-danger);
+    .toast-success {
+      background-color: var(--color-success);
     }
 
-    .toast.toast-info {
-      border-left-color: var(--color-primary);
-    }
-
-    footer {
-      text-align: center;
-      padding: 24px;
-      color: var(--text-muted);
-      font-size: 13px;
-      border-top: 1px solid var(--border-color);
-      background: var(--bg-surface);
+    .toast-error {
+      background-color: var(--color-danger);
     }
 
     @media (max-width: 768px) {
-      .header-inner {
-        flex-direction: column;
-        align-items: stretch;
+      header {
+        padding: 1rem;
       }
 
-      .header-actions {
-        justify-content: stretch;
-      }
-
-      .header-actions .btn {
-        flex: 1;
-        justify-content: center;
-      }
-
-      .toolbar {
-        flex-direction: column;
-      }
-
-      .search-box {
-        width: 100%;
-      }
-
-      .filter-select {
-        width: 100%;
+      main {
+        padding: 1rem;
       }
 
       .stamps-grid {
@@ -638,157 +554,131 @@
       .form-row {
         grid-template-columns: 1fr;
       }
-    }
 
-    @media (max-width: 480px) {
-      main {
-        padding: 16px;
+      .controls-row {
+        flex-direction: column;
+        align-items: stretch;
       }
 
-      .hero {
-        padding: 24px 16px;
+      .search-box {
+        min-width: 100%;
       }
 
-      .stats-grid {
-        grid-template-columns: 1fr;
+      .stats-row {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border-width: 0;
-    }
+    @media (max-width: 320px) {
+      .brand-text h1 {
+        font-size: 1rem;
+      }
 
-    .no-scroll {
-      overflow: hidden;
+      button {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="header-inner">
-      <div class="logo">
-        <span class="logo-icon">🌍</span>
-        <span>Passport Stamp Collector</span>
+    <div class="brand">
+      <div class="brand-icon">✈️</div>
+      <div class="brand-text">
+        <h1>Passport Stamp Collector</h1>
+        <p>Koleksi Stempel Perjalananmu</p>
       </div>
-      <div class="header-actions">
-        <button class="btn btn-primary" id="btnAddStamp" aria-label="Tambah stempel baru">
-          + Tambah Stempel
-        </button>
-        <button class="btn btn-ghost" id="btnExport" aria-label="Ekspor koleksi">
-          📥 Export
-        </button>
-        <button class="btn btn-ghost" id="btnToggleTheme" aria-label="Ganti tema gelap/terang">
-          🌙
-        </button>
-      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-secondary btn-sm" id="btn-import" title="Import JSON">📥 Import</button>
+      <button class="btn-secondary btn-sm" id="btn-export" title="Export JSON">📤 Export</button>
+      <button class="btn-secondary btn-sm" id="btn-theme" title="Toggle tema">🌓 Tema</button>
+      <button class="btn-primary btn-sm" id="btn-add">➕ Stempel Baru</button>
     </div>
   </header>
 
   <main id="app">
-    <div class="hero">
-      <h1>Koleksi Stempel Paspor</h1>
-      <p>Kumpulkan kenangan perjalanan Anda. Setiap stempel adalah cerita yang tidak akan pernah terlupakan.</p>
-    </div>
-
-    <div class="stats-grid" id="statsGrid">
-      <div class="stat-card">
-        <div class="stat-value" id="statTotal">0</div>
-        <div class="stat-label">Total Stempel</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value" id="statCountries">0</div>
-        <div class="stat-label">Negara</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value" id="statRecent">0</div>
-        <div class="stat-label">Bulan Ini</div>
-      </div>
-    </div>
-
-    <div class="toolbar">
+    <div class="stats-row" id="stats-row"></div>
+    <div class="controls-row">
       <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Cari negara, kota, atau catatan..." aria-label="Cari stempel">
+        <input type="text" id="search-input" placeholder="Cari negara, kota, atau catatan..." autocomplete="off">
       </div>
-      <select class="filter-select" id="sortSelect" aria-label="Urutkan stempel">
-        <option value="newest">Terbaru</option>
-        <option value="oldest">Terlama</option>
-        <option value="country">Negara (A-Z)</option>
-        <option value="city">Kota (A-Z)</option>
+      <select id="filter-region">
+        <option value="all">Semua Region</option>
+        <option value="Asia">Asia</option>
+        <option value="Europe">Europe</option>
+        <option value="Americas">Americas</option>
+        <option value="Africa">Africa</option>
+        <option value="Oceania">Oceania</option>
       </select>
+      <button class="btn-secondary btn-sm" id="btn-clear-filter">Reset Filter</button>
     </div>
-
-    <div id="stampsContainer">
-      <div class="stamps-grid" id="stampsGrid"></div>
-      <div class="empty-state" id="emptyState" style="display: none;">
-        <div class="empty-state-icon">📘</div>
-        <h3>Belum Ada Stempel</h3>
-        <p>Mulai kumpulkan stempel paspor Anda dengan menambahkan perjalanan pertama.</p>
-        <button class="btn btn-primary" id="btnEmptyAdd" style="margin-top: 16px;">
-          + Tambah Stempel Pertama
-        </button>
-      </div>
-    </div>
+    <div id="stamps-container"></div>
   </main>
 
-  <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
-
-  <div class="modal-overlay" id="modalOverlay">
-    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <div class="modal-header">
-        <h2 class="modal-title" id="modalTitle">Tambah Stempel</h2>
-        <button class="modal-close" id="modalClose" aria-label="Tutup">&times;</button>
-      </div>
-      <form id="stampForm">
-        <input type="hidden" id="stampId">
+  <div class="modal-overlay" id="modal-form">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <h2 id="modal-title">Tambah Stempel Baru</h2>
+      <form id="stamp-form" novalidate>
+        <input type="hidden" id="stamp-id">
         <div class="form-row">
           <div class="form-group">
-            <label for="stampCountry">Negara</label>
-            <input type="text" id="stampCountry" required placeholder="Contoh: Jepang">
+            <label for="stamp-country">Negara</label>
+            <input type="text" id="stamp-country" required placeholder="Contoh: Jepang">
           </div>
           <div class="form-group">
-            <label for="stampCity">Kota</label>
-            <input type="text" id="stampCity" required placeholder="Contoh: Tokyo">
+            <label for="stamp-city">Kota</label>
+            <input type="text" id="stamp-city" required placeholder="Contoh: Tokyo">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="stamp-date">Tanggal Kunjungan</label>
+            <input type="date" id="stamp-date" required>
+          </div>
+          <div class="form-group">
+            <label for="stamp-region">Region</label>
+            <select id="stamp-region" required>
+              <option value="">Pilih region</option>
+              <option value="Asia">Asia</option>
+              <option value="Europe">Europe</option>
+              <option value="Americas">Americas</option>
+              <option value="Africa">Africa</option>
+              <option value="Oceania">Oceania</option>
+            </select>
           </div>
         </div>
         <div class="form-group">
-          <label for="stampDate">Tanggal</label>
-          <input type="date" id="stampDate" required>
+          <label for="stamp-emoji">Emoji Stempel</label>
+          <input type="text" id="stamp-emoji" placeholder="Contoh: 🗼" maxlength="4">
         </div>
         <div class="form-group">
-          <label for="stampEmoji">Ikon Stempel</label>
-          <select id="stampEmoji">
-            <option value="✈️">✈️ Pesawat</option>
-            <option value="🗾">🗾 Peta</option>
-            <option value="🏯">🏯 Bersejarah</option>
-            <option value="🏖️">🏖️ Pantai</option>
-            <option value="🏔️">🏔️ Gunung</option>
-            <option value="🌃">🌃 Kota Malam</option>
-            <option value="🌸">🌸 Alam</option>
-            <option value="🍜">🍜 Kuliner</option>
-            <option value="🎭">🎭 Budaya</option>
-            <option value="📸">📸 Foto</option>
-          </select>
+          <label for="stamp-note">Catatan</label>
+          <textarea id="stamp-note" placeholder="Kenangan singkat dari perjalananmu..."></textarea>
         </div>
-        <div class="form-group">
-          <label for="stampNotes">Catatan</label>
-          <textarea id="stampNotes" placeholder="Cerita singkat tentang perjalanan Anda..."></textarea>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-ghost" id="btnCancel">Batal</button>
-          <button type="button" class="btn btn-danger btn-sm" id="btnDelete" style="display: none;">Hapus</button>
-          <button type="submit" class="btn btn-primary">Simpan</button>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="btn-cancel">Batal</button>
+          <button type="submit" class="btn-primary">💾 Simpan</button>
         </div>
       </form>
     </div>
   </div>
+
+  <div class="modal-overlay" id="modal-confirm">
+    <div class="modal" role="dialog" aria-modal="true">
+      <h2>Konfirmasi Hapus</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Apakah kamu yakin ingin menghapus stempel ini? Tindakan ini tidak bisa dibatalkan.</p>
+      <div class="modal-actions">
+        <button class="btn-secondary" id="btn-confirm-cancel">Batal</button>
+        <button class="btn-danger" id="btn-confirm-delete">🗑 Hapus</button>
+      </div>
+    </div>
+  </div>
+
+  <input type="file" id="file-import" accept="application/json" style="display:none">
+
+  <div class="toast-container" id="toast-container" aria-live="polite" aria-atomic="true"></div>
 
   <footer>
     <p>&copy; <span id="year"></span> Passport Stamp Collector. Dibuat dengan Vanilla HTML, CSS, dan JavaScript.</p>
@@ -799,17 +689,15 @@
 
     const App = {
       state: {
-        theme: localStorage.getItem('app_theme') || 'light',
+        theme: localStorage.getItem('passport_app_theme') || 'light',
         stamps: [],
         filter: 'all',
         searchQuery: '',
-        sortBy: 'newest',
-        editingId: null
+        editingId: null,
+        deletingId: null
       },
 
       dom: {},
-
-      STORAGE_KEY: 'passport_stamp_collector_data',
 
       init() {
         this.cacheDOM();
@@ -822,39 +710,23 @@
       cacheDOM() {
         this.dom.html = document.documentElement;
         this.dom.app = document.getElementById('app');
-        this.dom.stampsGrid = document.getElementById('stampsGrid');
-        this.dom.emptyState = document.getElementById('emptyState');
-        this.dom.searchInput = document.getElementById('searchInput');
-        this.dom.sortSelect = document.getElementById('sortSelect');
+        this.dom.stampsContainer = document.getElementById('stamps-container');
+        this.dom.statsRow = document.getElementById('stats-row');
         this.dom.toastContainer = document.getElementById('toast-container');
         this.dom.yearSpan = document.getElementById('year');
-        this.dom.modalOverlay = document.getElementById('modalOverlay');
-        this.dom.modal = document.getElementById('modal');
-        this.dom.modalTitle = document.getElementById('modalTitle');
-        this.dom.stampForm = document.getElementById('stampForm');
-        this.dom.stampId = document.getElementById('stampId');
-        this.dom.stampCountry = document.getElementById('stampCountry');
-        this.dom.stampCity = document.getElementById('stampCity');
-        this.dom.stampDate = document.getElementById('stampDate');
-        this.dom.stampEmoji = document.getElementById('stampEmoji');
-        this.dom.stampNotes = document.getElementById('stampNotes');
-        this.dom.btnDelete = document.getElementById('btnDelete');
-        this.dom.statTotal = document.getElementById('statTotal');
-        this.dom.statCountries = document.getElementById('statCountries');
-        this.dom.statRecent = document.getElementById('statRecent');
-
-        if (this.dom.yearSpan) {
-          this.dom.yearSpan.textContent = new Date().getFullYear();
-        }
+        this.dom.searchInput = document.getElementById('search-input');
+        this.dom.filterRegion = document.getElementById('filter-region');
+        this.dom.modalForm = document.getElementById('modal-form');
+        this.dom.modalConfirm = document.getElementById('modal-confirm');
+        this.dom.stampForm = document.getElementById('stamp-form');
+        this.dom.fileImport = document.getElementById('file-import');
+        if (this.dom.yearSpan) this.dom.yearSpan.textContent = new Date().getFullYear();
       },
 
       loadState() {
         try {
-          const raw = localStorage.getItem(this.STORAGE_KEY);
-          if (raw) {
-            const parsed = JSON.parse(raw);
-            this.state.stamps = Array.isArray(parsed.stamps) ? parsed.stamps : [];
-          }
+          const raw = localStorage.getItem('passport_stamp_collector_data');
+          if (raw) this.state.stamps = JSON.parse(raw);
         } catch (e) {
           console.error('Failed to load state from localStorage:', e);
           this.state.stamps = [];
@@ -863,9 +735,7 @@
 
       saveState() {
         try {
-          localStorage.setItem(this.STORAGE_KEY, JSON.stringify({
-            stamps: this.state.stamps
-          }));
+          localStorage.setItem('passport_stamp_collector_data', JSON.stringify(this.state.stamps));
         } catch (e) {
           console.error('Failed to save state to localStorage:', e);
           this.showToast('Gagal menyimpan data ke penyimpanan lokal!', 'error');
@@ -878,18 +748,18 @@
         } else {
           this.dom.html.classList.remove('dark');
         }
-        localStorage.setItem('app_theme', this.state.theme);
+        localStorage.setItem('passport_app_theme', this.state.theme);
       },
 
       toggleTheme() {
         this.state.theme = this.state.theme === 'light' ? 'dark' : 'light';
         this.applyTheme();
-        this.showToast('Tema berhasil diubah', 'info');
+        this.showToast(this.state.theme === 'dark' ? 'Mode gelap aktif' : 'Mode terang aktif', 'info');
       },
 
       showToast(message, type = 'info') {
         const toast = document.createElement('div');
-        toast.className = `toast toast-${type}`;
+        toast.className = 'toast toast-' + type;
         toast.textContent = message;
         this.dom.toastContainer.appendChild(toast);
         requestAnimationFrame(() => {
@@ -902,319 +772,390 @@
       },
 
       getFilteredStamps() {
-        let result = [...this.state.stamps];
-
+        let result = this.state.stamps;
+        if (this.state.filter !== 'all') {
+          result = result.filter(s => s.region === this.state.filter);
+        }
         if (this.state.searchQuery.trim()) {
-          const q = this.state.searchQuery.toLowerCase();
+          const q = this.state.searchQuery.trim().toLowerCase();
           result = result.filter(s =>
-            s.country.toLowerCase().includes(q) ||
-            s.city.toLowerCase().includes(q) ||
-            (s.notes && s.notes.toLowerCase().includes(q))
+            (s.country || '').toLowerCase().includes(q) ||
+            (s.city || '').toLowerCase().includes(q) ||
+            (s.note || '').toLowerCase().includes(q)
           );
         }
-
-        switch (this.state.sortBy) {
-          case 'newest':
-            result.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-            break;
-          case 'oldest':
-            result.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
-            break;
-          case 'country':
-            result.sort((a, b) => a.country.localeCompare(b.country));
-            break;
-          case 'city':
-            result.sort((a, b) => a.city.localeCompare(b.city));
-            break;
-        }
-
         return result;
       },
 
-      computeStats() {
+      getStats() {
         const stamps = this.state.stamps;
-        const countries = new Set(stamps.map(s => s.country.trim().toLowerCase())).size;
-
-        const now = new Date();
-        const currentMonth = now.getMonth();
-        const currentYear = now.getFullYear();
-        const recentCount = stamps.filter(s => {
-          if (!s.date) return false;
-          const d = new Date(s.date);
-          return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
-        }).length;
-
-        return {
-          total: stamps.length,
-          countries: countries,
-          recent: recentCount
-        };
+        const totalCountries = new Set(stamps.map(s => s.country)).size;
+        const totalStamps = stamps.length;
+        const regions = {};
+        stamps.forEach(s => {
+          regions[s.region] = (regions[s.region] || 0) + 1;
+        });
+        let topRegion = '-';
+        let maxCount = 0;
+        for (const r in regions) {
+          if (regions[r] > maxCount) {
+            maxCount = regions[r];
+            topRegion = r;
+          }
+        }
+        return { totalCountries, totalStamps, topRegion };
       },
 
-      openModal(stamp = null) {
-        this.dom.modalOverlay.classList.add('active');
-        this.dom.modal.classList.add('active');
-        document.body.classList.add('no-scroll');
+      renderStats() {
+        const stats = this.getStats();
+        this.dom.statsRow.innerHTML = `
+          <div class="stat-card">
+            <div class="stat-value">${stats.totalStamps}</div>
+            <div class="stat-label">Total Stempel</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">${stats.totalCountries}</div>
+            <div class="stat-label">Negara Dikunjungi</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">${stats.topRegion}</div>
+            <div class="stat-label">Region Favorit</div>
+          </div>
+        `;
+      },
+
+      renderStamps() {
+        const stamps = this.getFilteredStamps();
+        if (stamps.length === 0) {
+          this.dom.stampsContainer.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-state-icon">🗺️</div>
+              <h3>Belum ada stempel</h3>
+              <p>Mulai tambahkan stempel perjalananmu sekarang!</p>
+            </div>
+          `;
+          return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        stamps.forEach(stamp => {
+          const card = document.createElement('div');
+          card.className = 'stamp-card';
+          card.setAttribute('data-id', stamp.id);
+
+          const emoji = stamp.emoji || '📍';
+          const date = stamp.date ? new Date(stamp.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '-';
+
+          card.innerHTML = `
+            <div class="stamp-header">
+              <div>
+                <div class="stamp-country"></div>
+                <div class="stamp-city"></div>
+              </div>
+              <div class="stamp-emoji">${this.escapeHtml(emoji)}</div>
+            </div>
+            <div class="stamp-meta">
+              <span>📅 ${this.escapeHtml(date)}</span>
+              <span>🌍 ${this.escapeHtml(stamp.region || '-')}</span>
+            </div>
+            <div class="stamp-note"></div>
+            <div class="stamp-actions">
+              <button class="btn-secondary btn-sm btn-edit" data-id="${this.escapeHtml(stamp.id)}">✏️ Edit</button>
+              <button class="btn-danger btn-sm btn-delete" data-id="${this.escapeHtml(stamp.id)}">🗑 Hapus</button>
+            </div>
+          `;
+
+          card.querySelector('.stamp-country').textContent = stamp.country || '-';
+          card.querySelector('.stamp-city').textContent = stamp.city || '';
+          const noteEl = card.querySelector('.stamp-note');
+          if (stamp.note && stamp.note.trim()) {
+            noteEl.textContent = stamp.note;
+          } else {
+            noteEl.style.display = 'none';
+          }
+
+          fragment.appendChild(card);
+        });
+
+        this.dom.stampsContainer.innerHTML = '';
+        this.dom.stampsContainer.appendChild(fragment);
+      },
+
+      escapeHtml(str) {
+        if (str == null) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      },
+
+      render() {
+        this.renderStats();
+        this.renderStamps();
+      },
+
+      openModalForm(stamp = null) {
+        this.state.editingId = null;
+        const form = this.dom.stampForm;
+        form.reset();
+        document.getElementById('stamp-id').value = '';
 
         if (stamp) {
-          this.dom.modalTitle.textContent = 'Edit Stempel';
-          this.dom.stampId.value = stamp.id;
-          this.dom.stampCountry.value = stamp.country;
-          this.dom.stampCity.value = stamp.city;
-          this.dom.stampDate.value = stamp.date;
-          this.dom.stampEmoji.value = stamp.emoji || '✈️';
-          this.dom.stampNotes.value = stamp.notes || '';
-          this.dom.btnDelete.style.display = 'inline-flex';
           this.state.editingId = stamp.id;
+          document.getElementById('stamp-id').value = stamp.id;
+          document.getElementById('stamp-country').value = stamp.country || '';
+          document.getElementById('stamp-city').value = stamp.city || '';
+          document.getElementById('stamp-date').value = stamp.date || '';
+          document.getElementById('stamp-region').value = stamp.region || '';
+          document.getElementById('stamp-emoji').value = stamp.emoji || '';
+          document.getElementById('stamp-note').value = stamp.note || '';
+          document.getElementById('modal-title').textContent = 'Edit Stempel';
         } else {
-          this.dom.modalTitle.textContent = 'Tambah Stempel';
-          this.dom.stampForm.reset();
-          this.dom.stampId.value = '';
-          this.dom.btnDelete.style.display = 'none';
-          this.dom.stampDate.value = new Date().toISOString().split('T')[0];
-          this.state.editingId = null;
+          document.getElementById('modal-title').textContent = 'Tambah Stempel Baru';
         }
 
-        setTimeout(() => this.dom.stampCountry.focus(), 100);
+        this.dom.modalForm.classList.add('active');
+        setTimeout(() => document.getElementById('stamp-country').focus(), 100);
       },
 
-      closeModal() {
-        this.dom.modalOverlay.classList.remove('active');
-        this.dom.modal.classList.remove('active');
-        document.body.classList.remove('no-scroll');
+      closeModalForm() {
+        this.dom.modalForm.classList.remove('active');
         this.state.editingId = null;
-        this.resetFormFields();
-        this.dom.stampForm.reset();
-        document.querySelector('#stampForm button[type="submit"]').style.display = '';
       },
 
-      handleFormSubmit(e) {
-        e.preventDefault();
+      openConfirmDelete(id) {
+        this.state.deletingId = id;
+        this.dom.modalConfirm.classList.add('active');
+      },
 
-        const country = this.dom.stampCountry.value.trim();
-        const city = this.dom.stampCity.value.trim();
-        const date = this.dom.stampDate.value;
-        const emoji = this.dom.stampEmoji.value;
-        const notes = this.dom.stampNotes.value.trim();
+      closeConfirmDelete() {
+        this.dom.modalConfirm.classList.remove('active');
+        this.state.deletingId = null;
+      },
 
-        if (!country || !city || !date) {
-          this.showToast('Mohon lengkapi data stempel', 'error');
-          return;
-        }
-
-        if (this.state.editingId) {
-          const index = this.state.stamps.findIndex(s => s.id === this.state.editingId);
-          if (index !== -1) {
-            this.state.stamps[index] = {
-              ...this.state.stamps[index],
-              country,
-              city,
-              date,
-              emoji,
-              notes,
-              updatedAt: Date.now()
-            };
-            this.showToast('Stempel berhasil diperbarui', 'success');
-          }
-        } else {
-          const newStamp = {
-            id: Date.now().toString(36) + Math.random().toString(36).substr(2, 9),
-            country,
-            city,
-            date,
-            emoji,
-            notes,
-            createdAt: Date.now()
-          };
-          this.state.stamps.unshift(newStamp);
-          this.showToast('Stempel berhasil ditambahkan', 'success');
-        }
-
+      addStamp(data) {
+        const stamp = {
+          id: 'stamp_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9),
+          country: data.country.trim(),
+          city: data.city.trim(),
+          date: data.date,
+          region: data.region,
+          emoji: (data.emoji || '').trim() || '📍',
+          note: (data.note || '').trim(),
+          createdAt: new Date().toISOString()
+        };
+        this.state.stamps.push(stamp);
         this.saveState();
-        this.closeModal();
         this.render();
+        this.showToast('Stempel berhasil ditambahkan!', 'success');
       },
 
-      handleDelete() {
-        if (!this.state.editingId) return;
-
-        const stamp = this.state.stamps.find(s => s.id === this.state.editingId);
-        if (!stamp) return;
-
-        if (confirm(`Hapus stempel dari ${stamp.city}, ${stamp.country}?`)) {
-          this.state.stamps = this.state.stamps.filter(s => s.id !== this.state.editingId);
-          this.saveState();
-          this.closeModal();
-          this.render();
-          this.showToast('Stempel berhasil dihapus', 'info');
-        }
+      updateStamp(id, data) {
+        const idx = this.state.stamps.findIndex(s => s.id === id);
+        if (idx === -1) return;
+        this.state.stamps[idx] = {
+          ...this.state.stamps[idx],
+          country: data.country.trim(),
+          city: data.city.trim(),
+          date: data.date,
+          region: data.region,
+          emoji: (data.emoji || '').trim() || this.state.stamps[idx].emoji || '📍',
+          note: (data.note || '').trim()
+        };
+        this.saveState();
+        this.render();
+        this.showToast('Stempel berhasil diperbarui!', 'success');
       },
 
-      handleViewDetail(stampId) {
-        const stamp = this.state.stamps.find(s => s.id === stampId);
-        if (!stamp) return;
-
-        this.dom.modalTitle.textContent = 'Detail Stempel';
-        this.dom.stampId.value = stamp.id;
-        this.dom.stampCountry.value = stamp.country;
-        this.dom.stampCity.value = stamp.city;
-        this.dom.stampDate.value = stamp.date;
-        this.dom.stampEmoji.value = stamp.emoji || '✈️';
-        this.dom.stampNotes.value = stamp.notes || '';
-
-        this.dom.stampCountry.disabled = true;
-        this.dom.stampCity.disabled = true;
-        this.dom.stampDate.disabled = true;
-        this.dom.stampEmoji.disabled = true;
-        this.dom.stampNotes.disabled = true;
-
-        this.dom.btnDelete.style.display = 'none';
-        document.querySelector('#stampForm button[type="submit"]').style.display = 'none';
-
-        this.dom.modalOverlay.classList.add('active');
-        this.dom.modal.classList.add('active');
-        document.body.classList.add('no-scroll');
-        this.state.editingId = stamp.id;
+      deleteStamp(id) {
+        this.state.stamps = this.state.stamps.filter(s => s.id !== id);
+        this.saveState();
+        this.render();
+        this.showToast('Stempel berhasil dihapus.', 'info');
       },
 
-      resetFormFields() {
-        this.dom.stampCountry.disabled = false;
-        this.dom.stampCity.disabled = false;
-        this.dom.stampDate.disabled = false;
-        this.dom.stampEmoji.disabled = false;
-        this.dom.stampNotes.disabled = false;
-        document.querySelector('#stampForm button[type="submit"]').style.display = '';
-      },
-
-      exportData() {
+      exportJSON() {
         if (this.state.stamps.length === 0) {
-          this.showToast('Tidak ada data untuk diekspor', 'error');
+          this.showToast('Tidak ada data untuk diekspor.', 'info');
           return;
         }
-
         const dataStr = JSON.stringify(this.state.stamps, null, 2);
         const blob = new Blob([dataStr], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `passport-stamps-${new Date().toISOString().split('T')[0]}.json`;
+        a.download = 'passport-stamps-' + new Date().toISOString().slice(0, 10) + '.json';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        this.showToast('Koleksi berhasil diekspor', 'success');
+        this.showToast('Data berhasil diekspor!', 'success');
+      },
+
+      importJSON(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const data = JSON.parse(e.target.result);
+            if (!Array.isArray(data)) {
+              this.showToast('Format file tidak valid.', 'error');
+              return;
+            }
+            const validStamps = data.filter(item =>
+              item.country && item.city && item.date && item.region
+            );
+            if (validStamps.length === 0) {
+              this.showToast('Tidak ada stempel valid dalam file.', 'error');
+              return;
+            }
+            this.state.stamps = [...this.state.stamps, ...validStamps];
+            this.saveState();
+            this.render();
+            this.showToast(`${validStamps.length} stempel berhasil diimpor!`, 'success');
+          } catch (err) {
+            this.showToast('Gagal membaca file JSON.', 'error');
+          }
+        };
+        reader.readAsText(file);
       },
 
       bindEvents() {
-        this.dom.html.addEventListener('click', (e) => {
-          const addBtn = e.target.closest('#btnAddStamp');
-          const emptyAddBtn = e.target.closest('#btnEmptyAdd');
-          const exportBtn = e.target.closest('#btnExport');
-          const themeBtn = e.target.closest('#btnToggleTheme');
-          const modalClose = e.target.closest('#modalClose');
-          const btnCancel = e.target.closest('#btnCancel');
-          const btnDelete = e.target.closest('#btnDelete');
-          const viewBtn = e.target.closest('.btn-view');
-          const editBtn = e.target.closest('.btn-edit');
+        const app = this.dom.app;
 
-          if (addBtn || emptyAddBtn) {
-            this.resetFormFields();
-            this.openModal(null);
+        app.addEventListener('click', (e) => {
+          const target = e.target;
+
+          if (target.id === 'btn-add') {
+            this.openModalForm();
+            return;
           }
 
-          if (exportBtn) {
-            this.exportData();
-          }
-
-          if (themeBtn) {
+          if (target.id === 'btn-theme') {
             this.toggleTheme();
+            return;
           }
 
-          if (modalClose || btnCancel) {
-            this.closeModal();
+          if (target.id === 'btn-export') {
+            this.exportJSON();
+            return;
           }
 
-          if (btnDelete) {
-            this.handleDelete();
+          if (target.id === 'btn-import') {
+            this.dom.fileImport.click();
+            return;
           }
 
-          if (viewBtn) {
-            const id = viewBtn.dataset.id;
-            if (id) this.handleViewDetail(id);
+          if (target.id === 'btn-clear-filter') {
+            this.state.filter = 'all';
+            this.state.searchQuery = '';
+            this.dom.filterRegion.value = 'all';
+            this.dom.searchInput.value = '';
+            this.render();
+            this.showToast('Filter telah direset.', 'info');
+            return;
           }
+
+          const editBtn = target.closest('.btn-edit');
+          const deleteBtn = target.closest('.btn-delete');
 
           if (editBtn) {
-            const id = editBtn.dataset.id;
+            const id = editBtn.getAttribute('data-id');
             const stamp = this.state.stamps.find(s => s.id === id);
             if (stamp) {
-              this.resetFormFields();
-              this.openModal(stamp);
+              this.openModalForm(stamp);
             }
+            return;
           }
 
-          if (e.target === this.dom.modalOverlay) {
-            this.closeModal();
+          if (deleteBtn) {
+            const id = deleteBtn.getAttribute('data-id');
+            this.openConfirmDelete(id);
+            return;
           }
         });
 
-        this.dom.stampForm.addEventListener('submit', (e) => this.handleFormSubmit(e));
-
-        this.dom.searchInput.addEventListener('input', (e) => {
-          this.state.searchQuery = e.target.value;
-          this.render();
+        app.addEventListener('input', (e) => {
+          if (e.target.id === 'search-input') {
+            this.state.searchQuery = e.target.value;
+            this.renderStamps();
+          }
         });
 
-        this.dom.sortSelect.addEventListener('change', (e) => {
-          this.state.sortBy = e.target.value;
-          this.render();
+        app.addEventListener('change', (e) => {
+          if (e.target.id === 'filter-region') {
+            this.state.filter = e.target.value;
+            this.renderStamps();
+          }
+        });
+
+        this.dom.stampForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const country = document.getElementById('stamp-country').value.trim();
+          const city = document.getElementById('stamp-city').value.trim();
+          const date = document.getElementById('stamp-date').value;
+          const region = document.getElementById('stamp-region').value;
+          const emoji = document.getElementById('stamp-emoji').value;
+          const note = document.getElementById('stamp-note').value.trim();
+
+          if (!country || !city || !date || !region) {
+            this.showToast('Mohon lengkapi field yang wajib diisi.', 'error');
+            return;
+          }
+
+          const data = { country, city, date, region, emoji, note };
+
+          if (this.state.editingId) {
+            this.updateStamp(this.state.editingId, data);
+          } else {
+            this.addStamp(data);
+          }
+
+          this.closeModalForm();
+        });
+
+        document.getElementById('btn-cancel').addEventListener('click', () => {
+          this.closeModalForm();
+        });
+
+        document.getElementById('btn-confirm-cancel').addEventListener('click', () => {
+          this.closeConfirmDelete();
+        });
+
+        document.getElementById('btn-confirm-delete').addEventListener('click', () => {
+          if (this.state.deletingId) {
+            this.deleteStamp(this.state.deletingId);
+            this.closeConfirmDelete();
+          }
+        });
+
+        this.dom.modalForm.addEventListener('click', (e) => {
+          if (e.target === this.dom.modalForm) {
+            this.closeModalForm();
+          }
+        });
+
+        this.dom.modalConfirm.addEventListener('click', (e) => {
+          if (e.target === this.dom.modalConfirm) {
+            this.closeConfirmDelete();
+          }
+        });
+
+        this.dom.fileImport.addEventListener('change', (e) => {
+          const file = e.target.files[0];
+          if (file) {
+            this.importJSON(file);
+            this.dom.fileImport.value = '';
+          }
         });
 
         document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape' && this.dom.modalOverlay.classList.contains('active')) {
-            this.closeModal();
+          if (e.key === 'Escape') {
+            this.closeModalForm();
+            this.closeConfirmDelete();
           }
         });
-      },
-
-      render() {
-        const filtered = this.getFilteredStamps();
-        const stats = this.computeStats();
-
-        this.dom.statTotal.textContent = stats.total;
-        this.dom.statCountries.textContent = stats.countries;
-        this.dom.statRecent.textContent = stats.recent;
-
-        if (filtered.length === 0) {
-          this.dom.stampsGrid.innerHTML = '';
-          this.dom.emptyState.style.display = 'block';
-        } else {
-          this.dom.emptyState.style.display = 'none';
-          this.dom.stampsGrid.innerHTML = filtered.map(stamp => `
-            <div class="stamp-card" data-id="${stamp.id}">
-              <div class="stamp-emoji">${stamp.emoji || '✈️'}</div>
-              <div class="stamp-country">${this.escapeHtml(stamp.country)}</div>
-              <div class="stamp-city">${this.escapeHtml(stamp.city)}</div>
-              <div class="stamp-date">${this.formatDate(stamp.date)}</div>
-              ${stamp.notes ? `<div style="font-size:13px;color:var(--text-muted);text-align:center;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${this.escapeHtml(stamp.notes)}</div>` : ''}
-              <div class="stamp-actions">
-                <button class="btn-view btn btn-ghost btn-sm" data-id="${stamp.id}" aria-label="Lihat detail">👁️ Lihat</button>
-                <button class="btn-edit btn btn-ghost btn-sm" data-id="${stamp.id}" aria-label="Edit stempel">✏️ Edit</button>
-              </div>
-            </div>
-          `).join('');
-        }
-      },
-
-      escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-      },
-
-      formatDate(dateStr) {
-        if (!dateStr) return '';
-        const [y, m, d] = dateStr.split('-');
-        return `${d}/${m}/${y}`;
       }
     };
 
